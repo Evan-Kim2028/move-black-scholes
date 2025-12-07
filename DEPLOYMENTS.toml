@@ -1,0 +1,100 @@
+# =============================================================================
+# Black-Scholes Package - Deployment Information
+# =============================================================================
+# This file contains PUBLIC deployment information.
+# It tracks package IDs, deployer addresses, and version history across networks.
+#
+# ⚠️  NEVER put private keys or mnemonics in this file!
+# 📁 For detailed test results, see ./test_results/
+
+[package]
+name = "black_scholes"
+description = "European option pricing using Black-Scholes formula for Sui Move"
+repository = "https://github.com/Evan-Kim2028/move-black-scholes"
+depends_on = "gaussian v0.7.0 (https://github.com/Evan-Kim2028/move-gaussian)"
+
+# =============================================================================
+# Testnet Deployments
+# =============================================================================
+
+[testnet.v0_1_0]
+package_id = "0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c"
+upgrade_cap = "0x919cf894685b69976be9dffad99099e7d8ef0f86a3a6a5d5668fb48253eda7a4"
+transaction_digest = "7TEL7q1KEcjDQXrRmXhKAxXqQ6swqDEEB1HCHPVw6nCi"
+deployed_at = "2025-12-07"
+deployed_by = "0x9d4d9ad2332d39f58082311bad065bf4e4476c4e3510d21f1d8931c57df863c5"
+gas_used = "~0.06 SUI"
+explorer = "https://testnet.suivision.xyz/package/0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c"
+
+# Modules: bs_events, d_values, entry, greeks, option_pricing
+# Dependencies: gaussian v0.7.0 (0xa3cf304af5b168686db4bff7e28072490bfd154fb1da50af84919ae20df12938)
+# Tests: 83 passing, scipy validated
+
+# =============================================================================
+# API Reference
+# =============================================================================
+
+[entry_functions.price_option]
+description = "Compute European call and put option prices"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["OptionPriceEvent"]
+
+[entry_functions.compute_greeks_call]
+description = "Compute all Greeks for a call option"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["GreeksEvent"]
+
+[entry_functions.compute_greeks_put]
+description = "Compute all Greeks for a put option"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["GreeksEvent"]
+
+[entry_functions.compute_d_values_entry]
+description = "Compute d₁ and d₂ values"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["DValuesEvent"]
+
+[entry_functions.compute_intrinsic]
+description = "Compute intrinsic values for call and put"
+args = ["spot: u256", "strike: u256"]
+emits = ["IntrinsicValueEvent"]
+
+[entry_functions.full_analysis_call]
+description = "Batch compute prices + Greeks for a call"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["OptionPriceEvent", "GreeksEvent"]
+
+[entry_functions.full_analysis_put]
+description = "Batch compute prices + Greeks for a put"
+args = ["spot: u256", "strike: u256", "time_to_expiry: u256", "rate: u256", "volatility: u256"]
+emits = ["OptionPriceEvent", "GreeksEvent"]
+
+# =============================================================================
+# Events
+# =============================================================================
+
+[events.OptionPriceEvent]
+module = "bs_events"
+fields = ["spot", "strike", "time_to_expiry", "rate", "volatility", "call_price", "put_price", "parity_verified", "caller"]
+
+[events.GreeksEvent]
+module = "bs_events"
+fields = ["spot", "strike", "time_to_expiry", "rate", "volatility", "is_call", "delta_magnitude", "delta_negative", "gamma", "vega", "theta_magnitude", "theta_negative", "rho_magnitude", "rho_negative", "caller"]
+
+[events.DValuesEvent]
+module = "bs_events"
+fields = ["spot", "strike", "time_to_expiry", "rate", "volatility", "d1_magnitude", "d1_negative", "d2_magnitude", "d2_negative", "vol_sqrt_t", "caller"]
+
+[events.IntrinsicValueEvent]
+module = "bs_events"
+fields = ["spot", "strike", "call_intrinsic", "put_intrinsic", "caller"]
+
+# =============================================================================
+# Mainnet (placeholder)
+# =============================================================================
+
+# [mainnet.v0_1_0]
+# package_id = ""
+# transaction_digest = ""
+# deployed_at = ""
+# explorer = ""

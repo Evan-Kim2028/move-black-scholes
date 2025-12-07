@@ -1,0 +1,8 @@
+# Build artifacts
+build/
+
+# Test results (internal, not for public repo)
+test_results/
+
+# OS files
+.DS_Store
