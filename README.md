@@ -4,32 +4,59 @@ A Sui Move implementation of the Black-Scholes option pricing model for European
 
 > ⚠️ **Experimental**: This is a learning/research project. It has not been audited and should not be used in production without thorough review.
 
+## Core Dependency
+
+This package is built on top of the [**move-gaussian**](https://github.com/Evan-Kim2028/move-gaussian) library, which provides:
+- Normal distribution CDF/PDF for option pricing
+- Transcendental functions (ln, exp, sqrt) for Black-Scholes calculations
+- SignedWad fixed-point arithmetic for negative values (d₁, d₂, Greeks)
+
+| Gaussian Library | |
+|------------------|---|
+| **Repository** | [github.com/Evan-Kim2028/move-gaussian](https://github.com/Evan-Kim2028/move-gaussian) |
+| **Package (Testnet)** | [`0x66f9087a3d9ae3fe07a5f3c1475d503f1b0ea508d3b83b73b0b8637b57629f7f`](https://suiscan.xyz/testnet/object/0x66f9087a3d9ae3fe07a5f3c1475d503f1b0ea508d3b83b73b0b8637b57629f7f) |
+| **Version Used** | v0.9.0 |
+
 ## Deployment
 
-### Testnet
+### Testnet (v0.2.0 - Latest)
 
 | Field | Value |
 |-------|-------|
-| **Package ID** | `0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c` |
-| **Version** | v0.1.0 |
+| **Package ID** | [`0x1637ddc0495a8833ebd580224dad7154dfb33477f73d2c7fb41e2b350efa55b3`](https://suiscan.xyz/testnet/object/0x1637ddc0495a8833ebd580224dad7154dfb33477f73d2c7fb41e2b350efa55b3) |
+| **Version** | v0.2.0 |
 | **Modules** | `bs_events`, `d_values`, `entry`, `greeks`, `option_pricing` |
-| **Depends On** | [gaussian](https://github.com/Evan-Kim2028/move-gaussian) v0.7.0 |
-| **Explorer** | [View on SuiVision](https://testnet.suivision.xyz/package/0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c) |
 
-### Verified On-Chain
+### Live Example Transactions
 
-The package has been deployed and called on Sui testnet.
+**1. Option Pricing (ATM Call/Put)**
 
-**Example Transaction**: [View on SuiVision](https://testnet.suivision.xyz/txblock/7BKaNWq6s5yfxsy2tYH5DHqspWvYpXK5Bh3ZpBkYKH8p)
+[`CdAxPyw1T7tF4xMPpfVqVhJMDL4Xy6zeyC24YeQxpjJt`](https://suiscan.xyz/testnet/tx/CdAxPyw1T7tF4xMPpfVqVhJMDL4Xy6zeyC24YeQxpjJt)
 
 ```
 Function: entry::price_option
-Inputs:   S=100, K=100, T=1yr, r=5%, σ=20%
+Inputs:   S=$100, K=$100, T=1yr, r=5%, σ=20%
 
 Emitted OptionPriceEvent:
-├── call_price:      ~10.45
-├── put_price:       ~5.57
-└── parity_verified: true
+├── call_price:      $10.45
+├── put_price:       $5.57
+└── parity_verified: true ✓
+```
+
+**2. Full Analysis (Prices + Greeks)**
+
+[`48TFYV87TXRJMUuCzoMZ4T5CLVsFgQoT1fptR2w7NXPv`](https://suiscan.xyz/testnet/tx/48TFYV87TXRJMUuCzoMZ4T5CLVsFgQoT1fptR2w7NXPv)
+
+```
+Function: entry::full_analysis_call
+Inputs:   S=$100, K=$100, T=1yr, r=5%, σ=20%
+
+Emitted GreeksEvent:
+├── delta (Δ):  0.637  (sensitivity to spot)
+├── gamma (Γ):  0.019  (rate of change of delta)
+├── vega (ν):   37.52  (sensitivity to vol)
+├── theta (θ): -6.41   (time decay/year)
+└── rho (ρ):    53.23  (sensitivity to rate)
 ```
 
 ## Overview
@@ -64,8 +91,10 @@ Add to your `Move.toml`:
 
 ```toml
 [dependencies]
-black_scholes = { git = "https://github.com/Evan-Kim2028/move-black-scholes.git", rev = "v0.1.0" }
+black_scholes = { git = "https://github.com/Evan-Kim2028/move-black-scholes.git", rev = "v0.2.0" }
 ```
+
+> **Note**: This will automatically pull in the [gaussian](https://github.com/Evan-Kim2028/move-gaussian) dependency (v0.9.0).
 
 ## Usage
 
@@ -141,14 +170,6 @@ See [`DEPLOYMENTS.toml`](./DEPLOYMENTS.toml) for full API reference.
 sui move build
 sui move test
 ```
-
-## Dependencies
-
-This package uses the [gaussian](https://github.com/Evan-Kim2028/move-gaussian) library for:
-
-- `transcendental::ln_wad`, `exp_wad`, `sqrt_wad`
-- `normal_forward::cdf_standard`, `pdf_standard`
-- `signed_wad` for signed fixed-point math
 
 ## License
 

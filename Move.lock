@@ -2,7 +2,7 @@
 
 [move]
 version = 3
-manifest_digest = "74C9F8B921366CA2D06150C66988616A485EEA7899E4FECF00D7E3CF5F8805A3"
+manifest_digest = "30EF93FEF824E627C63D06CDA92A0DC8697D8F17E8413EB6EF4FE97FD1240106"
 deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
 dependencies = [
   { id = "Bridge", name = "Bridge" },
@@ -45,13 +45,10 @@ dependencies = [
 
 [[move.package]]
 id = "gaussian"
-source = { git = "https://github.com/Evan-Kim2028/move-gaussian.git", rev = "v0.7.0", subdir = "" }
+source = { git = "https://github.com/Evan-Kim2028/move-gaussian.git", rev = "v0.9.0", subdir = "" }
 
 dependencies = [
-  { id = "Bridge", name = "Bridge" },
-  { id = "MoveStdlib", name = "MoveStdlib" },
   { id = "Sui", name = "Sui" },
-  { id = "SuiSystem", name = "SuiSystem" },
 ]
 
 [move.toolchain-version]
@@ -63,6 +60,6 @@ flavor = "sui"
 
 [env.testnet]
 chain-id = "4c78adac"
-original-published-id = "0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c"
-latest-published-id = "0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c"
+original-published-id = "0x1637ddc0495a8833ebd580224dad7154dfb33477f73d2c7fb41e2b350efa55b3"
+latest-published-id = "0x1637ddc0495a8833ebd580224dad7154dfb33477f73d2c7fb41e2b350efa55b3"
 published-version = "1"

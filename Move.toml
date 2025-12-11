@@ -1,11 +1,11 @@
 [package]
 name = "black_scholes"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
-published-at = "0xd33496acb857637f0498079aacd56cedae09c0a0fbed287239840c54f8e9719c"
+published-at = "0x1637ddc0495a8833ebd580224dad7154dfb33477f73d2c7fb41e2b350efa55b3"
 
 [dependencies]
-gaussian = { git = "https://github.com/Evan-Kim2028/move-gaussian.git", rev = "v0.7.0" }
+gaussian = { git = "https://github.com/Evan-Kim2028/move-gaussian.git", rev = "v0.9.0" }
 
 [addresses]
 black_scholes = "0x0"
